@@ -1,4 +1,4 @@
-package com.example.producer.entity;
+package com.example.consumers_two.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

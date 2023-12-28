@@ -1,4 +1,4 @@
-package com.example.producer.constants;
+package com.example.consumers_two.constants;
 
 public class PartitionsConstant {
     public static final String PARTITIONS_KEY_USER = "partition.key.user";

@@ -15,6 +15,8 @@ public class CustomPartitioner implements Partitioner {
             return 1;
         if (key.equals(PartitionsConstant.PARTITIONS_KEY_CLASS))
             return 2;
+        if (key.equals(PartitionsConstant.PARTITIONS_KEY_ADMIN))
+            return 3;
         return -1;
     }
 

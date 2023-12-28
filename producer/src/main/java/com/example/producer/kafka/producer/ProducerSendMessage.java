@@ -20,8 +20,7 @@ public class ProducerSendMessage {
 
     public void sendMessage(Users users) {
         Gson gson = new Gson();
-        CompletableFuture<SendResult<String, String>> future = kafkaTemplate
-                .send(KafkaConstants.CONFIG_TOPIC_KHACH_HANH, PartitionsConstant.PARTITIONS_KEY_USER, gson.toJson(users));
+        CompletableFuture<SendResult<String, String>> future = getPartitionByRole(users);
 
         future.whenComplete((result, ex) -> {
             if (ex == null) {
@@ -32,5 +31,23 @@ public class ProducerSendMessage {
                         gson.toJson(users) + "] due to : " + ex.getMessage());
             }
         });
+    }
+
+    public CompletableFuture<SendResult<String, String>> getPartitionByRole(Users users) {
+        Gson gson = new Gson();
+        if (users.getUserRole().equals(0L))
+            return kafkaTemplate
+                    .send(KafkaConstants.CONFIG_TOPIC_KHACH_HANH, PartitionsConstant.PARTITIONS_KEY_USER, gson.toJson(users));
+        if (users.getUserRole().equals(1L))
+            return kafkaTemplate
+                    .send(KafkaConstants.CONFIG_TOPIC_KHACH_HANH, PartitionsConstant.PARTITIONS_KEY_TEACHER, gson.toJson(users));
+        if (users.getUserRole().equals(2L))
+            return kafkaTemplate
+                    .send(KafkaConstants.CONFIG_TOPIC_KHACH_HANH, PartitionsConstant.PARTITIONS_KEY_CLASS, gson.toJson(users));
+        if (users.getUserRole().equals(3L))
+            return kafkaTemplate
+                    .send(KafkaConstants.CONFIG_TOPIC_KHACH_HANH, PartitionsConstant.PARTITIONS_KEY_ADMIN, gson.toJson(users));
+        return kafkaTemplate
+                .send(KafkaConstants.CONFIG_TOPIC_KHACH_HANH, PartitionsConstant.PARTITIONS_KEY_USER, gson.toJson(users));
     }
 }
